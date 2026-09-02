@@ -92,7 +92,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <span>Hello Kitty NHA CCMA Exam Prep</span>
               <Sparkles className="w-3.5 h-3.5 text-pink-500" />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-pink-950 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-display font-bold tracking-tight text-pink-950 leading-tight">
               CCMA Practice <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-500">Exam Simulator</span> 🎀
             </h1>
             <p className="text-pink-900/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">

@@ -72,7 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-black text-lg tracking-tight text-pink-950 group-hover:text-pink-600 transition-colors">
+                <h1 className="font-display font-bold text-lg tracking-tight text-pink-950 group-hover:text-pink-600 transition-colors">
                   CCMA <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-500">Mastery</span>
                 </h1>
                 <span className="bg-pink-100 text-pink-700 border border-pink-300 text-[10px] px-2.5 py-0.5 rounded-full font-mono font-extrabold uppercase tracking-wider shadow-sm flex items-center gap-1">

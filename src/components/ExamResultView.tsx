@@ -108,7 +108,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-pink-950">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold tracking-tight text-pink-950">
               {result.title} 🎀
             </h1>
             <p className="text-pink-800 text-sm max-w-xl leading-relaxed font-medium">

@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
+  XCircle,
   AlertCircle,
   Eye,
   Grid,
@@ -51,8 +52,8 @@ export const ExamView: React.FC<ExamViewProps> = ({
   const [showNavigator, setShowNavigator] = useState(false);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [showRefSheet, setShowRefSheet] = useState(false);
-  const [showRationaleInStudyMode, setShowRationaleInStudyMode] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationVariant, setCelebrationVariant] = useState<'correct' | 'incorrect'>('correct');
 
   const currentQ = session.questions[session.currentIndex];
   const domainMeta = DOMAIN_METADATA[currentQ.domain];
@@ -67,16 +68,15 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
   // Reset rationale & celebration display on question change
   useEffect(() => {
-    setShowRationaleInStudyMode(false);
     setShowCelebration(false);
   }, [session.currentIndex]);
 
   const handleSelectOption = (idx: number) => {
     onAnswerQuestion(currentQ.id, idx);
-    // If answer is correct, show the Hello Kitty celebratory GIF popup!
-    if (idx === currentQ.correctIndex) {
-      setShowCelebration(true);
-    }
+    // Always pop up a Hello Kitty reaction — happy & sunny when correct,
+    // sad with rain clouds when incorrect — so every answer gets a clear verdict.
+    setCelebrationVariant(idx === currentQ.correctIndex ? 'correct' : 'incorrect');
+    setShowCelebration(true);
   };
 
   // Keyboard navigation shortcuts
@@ -144,12 +144,21 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#fff5f8] text-[#3b0724] flex flex-col justify-between">
-      {/* Hello Kitty Celebration Modal Popup for Right Answers */}
+      {/* Hello Kitty Reaction Modal — sunny & cheering when right, rainy & sad when wrong */}
       <HelloKittyCelebration
         show={showCelebration}
         onClose={() => setShowCelebration(false)}
-        message="Yay Nata! That's Correct! 🎀"
-        subMessage="Hello Kitty is cheering for you! Another point for your CCMA certification! ✨"
+        variant={celebrationVariant}
+        message={
+          celebrationVariant === 'correct'
+            ? "Yay Nata! That's Correct! 🎀"
+            : 'Aw, not quite, Nata 🌧️'
+        }
+        subMessage={
+          celebrationVariant === 'correct'
+            ? 'Hello Kitty is cheering for you! Another point for your CCMA certification! ✨'
+            : "Hello Kitty is sad, but she believes in you — check the explanation below and you'll get the next one!"
+        }
       />
 
       {/* Top Test Header & Progress Bar */}
@@ -236,19 +245,8 @@ export const ExamView: React.FC<ExamViewProps> = ({
       {/* Main Question Body */}
       <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 flex flex-col justify-between">
         <div className="luxury-card rounded-3xl p-6 sm:p-10 shadow-[0_20px_50px_rgba(244,114,182,0.22)] space-y-6 border-2 border-pink-200">
-          {/* Subtopic Badge & Question Meta */}
-          <div className="flex items-center justify-between gap-2 border-b border-pink-100 pb-3.5">
-            <span className="text-xs font-black uppercase tracking-wider text-pink-700 bg-pink-100 px-3.5 py-1 rounded-full border border-pink-200 flex items-center gap-1">
-              <span>🎀</span>
-              <span>{currentQ.subtopic}</span>
-            </span>
-            <span className="text-xs text-pink-600 font-mono font-bold">
-              ID: {currentQ.id}
-            </span>
-          </div>
-
           {/* Question Stem */}
-          <div className="text-pink-950 text-base sm:text-lg font-bold leading-relaxed">
+          <div className="text-pink-950 text-base sm:text-lg font-display font-bold leading-relaxed tracking-tight">
             {currentQ.stem}
           </div>
 
@@ -258,19 +256,37 @@ export const ExamView: React.FC<ExamViewProps> = ({
               const isSelected = selectedAnswer === idx;
               const isEliminated = eliminatedList.includes(idx);
               const isCorrectAnswer = idx === currentQ.correctIndex;
-              const showResultColor = session.instantFeedback && selectedAnswer !== undefined;
+              const hasAnswered = selectedAnswer !== undefined;
+              const isWrongSelected = hasAnswered && isSelected && !isCorrectAnswer;
+              const isRevealedCorrect = hasAnswered && isCorrectAnswer;
+
+              let cardClass = 'bg-white/80 border-pink-200 hover:border-pink-400 text-pink-900 hover:bg-pink-50/70';
+              if (isEliminated) {
+                cardClass = 'opacity-35 bg-pink-50/50 border-dashed border-pink-200';
+              } else if (isRevealedCorrect) {
+                cardClass = 'bg-emerald-50 border-emerald-500 text-emerald-950 shadow-[0_4px_20px_rgba(16,185,129,0.28)] font-bold';
+              } else if (isWrongSelected) {
+                cardClass = 'bg-rose-50 border-rose-500 text-rose-950 shadow-[0_4px_20px_rgba(244,63,94,0.28)] font-bold';
+              } else if (hasAnswered) {
+                cardClass = 'bg-white/50 border-pink-100 text-pink-400';
+              } else if (isSelected) {
+                cardClass = 'bg-pink-50 border-pink-500 text-pink-950 shadow-[0_4px_20px_rgba(244,63,94,0.25)] font-bold';
+              }
+
+              let letterClass = 'bg-pink-100 border border-pink-200 text-pink-700 group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:text-white';
+              if (isRevealedCorrect) {
+                letterClass = 'bg-emerald-500 text-white shadow-md';
+              } else if (isWrongSelected) {
+                letterClass = 'bg-rose-500 text-white shadow-md';
+              } else if (isSelected) {
+                letterClass = 'bg-pink-500 text-white shadow-md';
+              }
 
               return (
                 <div
                   key={idx}
                   id={`option-${currentQ.id}-${idx}`}
-                  className={`group relative flex items-center justify-between rounded-2xl border-2 p-4 sm:p-5 transition-all duration-200 cursor-pointer ${
-                    isEliminated
-                      ? 'opacity-35 bg-pink-50/50 border-dashed border-pink-200'
-                      : isSelected
-                      ? 'bg-pink-50 border-pink-500 text-pink-950 shadow-[0_4px_20px_rgba(244,63,94,0.25)] font-bold'
-                      : 'bg-white/80 border-pink-200 hover:border-pink-400 text-pink-900 hover:bg-pink-50/70'
-                  }`}
+                  className={`group relative flex items-center justify-between rounded-2xl border-2 p-4 sm:p-5 transition-all duration-200 cursor-pointer ${cardClass}`}
                   onClick={() => {
                     if (!isEliminated) {
                       handleSelectOption(idx);
@@ -280,11 +296,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
                   <div className="flex items-start gap-4 flex-1 pr-4">
                     {/* Option Letter Indicator */}
                     <div
-                      className={`w-9 h-9 rounded-2xl flex items-center justify-center font-black text-xs flex-shrink-0 transition-all ${
-                        isSelected
-                          ? 'bg-pink-500 text-white shadow-md'
-                          : 'bg-pink-100 border border-pink-200 text-pink-700 group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:text-white'
-                      }`}
+                      className={`w-9 h-9 rounded-2xl flex items-center justify-center font-black text-xs flex-shrink-0 transition-all ${letterClass}`}
                     >
                       {optionLabels[idx]}
                     </div>
@@ -297,6 +309,14 @@ export const ExamView: React.FC<ExamViewProps> = ({
                       {optionText}
                     </span>
                   </div>
+
+                  {/* Right/Wrong verdict icon once answered */}
+                  {isRevealedCorrect && (
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mr-2" />
+                  )}
+                  {isWrongSelected && (
+                    <XCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mr-2" />
+                  )}
 
                   {/* Strike-out (Eliminator) button */}
                   <button
@@ -322,57 +342,80 @@ export const ExamView: React.FC<ExamViewProps> = ({
             })}
           </div>
 
-          {/* Right Answer Inline Celebration GIF Banner */}
-          {selectedAnswer !== undefined && isSelectedCorrect && (
-            <div className="p-4 bg-gradient-to-r from-pink-100 via-rose-50 to-pink-100 border-2 border-pink-300 rounded-3xl flex flex-col sm:flex-row items-center gap-4 animate-fadeIn shadow-md">
-              <div className="w-20 h-20 bg-white rounded-2xl p-1 border-2 border-pink-300 shadow-sm flex items-center justify-center flex-shrink-0">
-                <img
-                  src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZ4b2lzYWdxc20zbnc2YmFnd3A1dHZpd2w3M3l6NDVjYXAwZGkyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif"
-                  alt="Hello Kitty Right Answer"
-                  className="w-full h-full object-contain rounded-xl"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR0OHpscmpsY3l1bjNvaGZlZ3A2N21obzZ4MmtiOHBkaHRvbDNmdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xeJpnrWC4XWblEk/giphy.gif";
-                  }}
-                />
-              </div>
-              <div className="space-y-1 text-center sm:text-left flex-1">
-                <div className="inline-flex items-center gap-1 text-xs font-black text-pink-700 bg-white/90 px-3 py-0.5 rounded-full border border-pink-200 shadow-sm">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Correct Answer! 🎀</span>
+          {/* Right/Wrong Verdict + Clinical Explanation Banner — always shown once answered */}
+          {selectedAnswer !== undefined && (
+            <div
+              className={`p-5 rounded-3xl border-2 space-y-3 animate-fadeIn shadow-md ${
+                isSelectedCorrect
+                  ? 'bg-gradient-to-r from-emerald-50 via-white to-pink-50 border-emerald-300'
+                  : 'bg-gradient-to-r from-rose-50 via-white to-pink-50 border-rose-300'
+              }`}
+            >
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div
+                  className={`w-16 h-16 bg-white rounded-2xl p-1 border-2 shadow-sm flex items-center justify-center flex-shrink-0 ${
+                    isSelectedCorrect ? 'border-emerald-300' : 'border-rose-300'
+                  }`}
+                >
+                  <img
+                    src={
+                      isSelectedCorrect
+                        ? 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZ4b2lzYWdxc20zbnc2YmFnd3A1dHZpd2w3M3l6NDVjYXAwZGkyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif'
+                        : 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTdyYTczNjdoN2h0a2FsN3NzNGRocTgyMHE4OXJkc3l2YWo5dzQxeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/umk922zX3bVDEyE19D/giphy.gif'
+                    }
+                    alt={isSelectedCorrect ? 'Hello Kitty Right Answer' : 'Hello Kitty Sad'}
+                    className="w-full h-full object-contain rounded-xl"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = isSelectedCorrect
+                        ? 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR0OHpscmpsY3l1bjNvaGZlZ3A2N21obzZ4MmtiOHBkaHRvbDNmdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xeJpnrWC4XWblEk/giphy.gif'
+                        : 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmY2dnNnajUwOWRteW9uaWZ4YnJ5bHZyOHlhOWthNnBoNWxxcXo3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VJ5fjfkHj3hydAeWdb/giphy.gif';
+                    }}
+                  />
                 </div>
-                <h4 className="text-base font-black text-pink-950">
-                  Great job Nata! You nailed this clinical concept! ✨
-                </h4>
-                <p className="text-xs text-pink-800 font-medium">
-                  Hello Kitty is cheering for your 100% board exam mastery!
+                <div className="space-y-1 text-center sm:text-left flex-1">
+                  <div
+                    className={`inline-flex items-center gap-1 text-xs font-black px-3 py-0.5 rounded-full border shadow-sm ${
+                      isSelectedCorrect
+                        ? 'text-emerald-700 bg-white/90 border-emerald-200'
+                        : 'text-rose-700 bg-white/90 border-rose-200'
+                    }`}
+                  >
+                    {isSelectedCorrect ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    ) : (
+                      <XCircle className="w-3.5 h-3.5 text-rose-600" />
+                    )}
+                    <span>{isSelectedCorrect ? 'Correct Answer! 🎀' : 'Incorrect — Not This One 🌧️'}</span>
+                  </div>
+                  <h4 className={`text-base font-display font-black ${isSelectedCorrect ? 'text-emerald-900' : 'text-rose-900'}`}>
+                    {isSelectedCorrect
+                      ? 'Great job Nata! You nailed this clinical concept! ✨'
+                      : "That's alright, Nata — every miss is a step closer to passing! 💪"}
+                  </h4>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-pink-100/80 space-y-1.5 text-left">
+                <div className="flex items-center gap-2 font-black text-emerald-700 text-xs sm:text-sm">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>
+                    Correct Answer: Option {optionLabels[currentQ.correctIndex]} — {currentQ.options[currentQ.correctIndex]}
+                  </span>
+                </div>
+                {!isSelectedCorrect && (
+                  <div className="flex items-center gap-2 font-black text-rose-700 text-xs sm:text-sm">
+                    <XCircle className="w-4 h-4" />
+                    <span>
+                      You Chose: Option {optionLabels[selectedAnswer]} — {currentQ.options[selectedAnswer]}
+                    </span>
+                  </div>
+                )}
+                <p className="text-pink-800 font-medium text-xs sm:text-sm leading-relaxed pt-1">
+                  {currentQ.rationale}
                 </p>
               </div>
-            </div>
-          )}
-
-          {/* Study Mode Instant Feedback Rationale */}
-          {session.instantFeedback && selectedAnswer !== undefined && (
-            <div className="pt-4 border-t border-pink-100 space-y-3">
-              <button
-                id="exam-btn-toggle-instant-rationale"
-                onClick={() => setShowRationaleInStudyMode(!showRationaleInStudyMode)}
-                className="text-xs font-black text-pink-600 hover:text-pink-700 flex items-center gap-1.5 transition-colors"
-              >
-                <Sparkles className="w-4 h-4 text-pink-500" />
-                <span>{showRationaleInStudyMode ? 'Hide Clinical Rationale' : 'Show Clinical Rationale & Explanation 🎀'}</span>
-              </button>
-
-              {showRationaleInStudyMode && (
-                <div className="p-5 rounded-2xl bg-pink-50 border-2 border-pink-200 text-xs sm:text-sm text-pink-900 space-y-2 leading-relaxed">
-                  <div className="flex items-center gap-2 font-black text-emerald-700">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Correct Answer: Option {optionLabels[currentQ.correctIndex]} — {currentQ.options[currentQ.correctIndex]}</span>
-                  </div>
-                  <p className="text-pink-800 font-medium">{currentQ.rationale}</p>
-                </div>
-              )}
             </div>
           )}
         </div>

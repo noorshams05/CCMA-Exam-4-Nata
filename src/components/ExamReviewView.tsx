@@ -97,7 +97,7 @@ export const ExamReviewView: React.FC<ExamReviewViewProps> = ({
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Score Report</span>
           </button>
-          <h1 className="text-xl sm:text-2xl font-black text-pink-950 flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-pink-950 flex items-center gap-2">
             <span>🎀 Exam Review & Detailed Rationales</span>
           </h1>
           <p className="text-xs text-pink-700 font-medium">

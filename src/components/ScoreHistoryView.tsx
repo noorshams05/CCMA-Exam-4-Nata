@@ -64,7 +64,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
             <span>Performance History Log</span>
             <Sparkles className="w-3.5 h-3.5 text-pink-500" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-pink-950 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-pink-950 tracking-tight">
             CCMA Exam Attempt History 🎀
           </h1>
           <p className="text-sm text-pink-800/90 mt-1 font-medium">
