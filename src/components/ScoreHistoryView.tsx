@@ -57,7 +57,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fadeInUp">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-pink-100 border border-pink-300 text-pink-800 text-xs font-black mb-2 shadow-sm">
             <span>🎀</span>
@@ -76,7 +76,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
           <button
             id="hist-btn-clear"
             onClick={handleClearHistory}
-            className="px-3.5 py-2 rounded-2xl border-2 border-rose-200 bg-rose-50 text-rose-800 hover:bg-rose-100 text-xs font-bold flex items-center gap-1.5 self-start sm:self-auto transition-all shadow-sm"
+            className="px-3.5 py-2 rounded-2xl border-2 border-rose-200 bg-rose-50 text-rose-800 hover:bg-rose-100 text-xs font-bold flex items-center gap-1.5 self-start sm:self-auto transition-all duration-300 ease-out hover:scale-[1.04] shadow-sm"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear History</span>
@@ -86,7 +86,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
 
       {/* Overview Stat Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="luxury-card border-2 border-pink-200 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="luxury-card-interactive rounded-3xl p-5 space-y-1 animate-fadeInUp stagger-2">
           <span className="text-xs text-pink-700 font-bold block">
             Total Attempts
           </span>
@@ -95,7 +95,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
           </span>
         </div>
 
-        <div className="luxury-card border-2 border-pink-200 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="luxury-card-interactive rounded-3xl p-5 space-y-1 animate-fadeInUp stagger-3">
           <span className="text-xs text-pink-700 font-bold block">
             Average Scaled Score
           </span>
@@ -112,7 +112,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
           </span>
         </div>
 
-        <div className="luxury-card border-2 border-pink-200 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="luxury-card-interactive rounded-3xl p-5 space-y-1 animate-fadeInUp stagger-4">
           <span className="text-xs text-pink-700 font-bold block">
             Highest Score 🎀
           </span>
@@ -125,7 +125,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
           </span>
         </div>
 
-        <div className="luxury-card border-2 border-pink-200 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="luxury-card-interactive rounded-3xl p-5 space-y-1 animate-fadeInUp stagger-5">
           <span className="text-xs text-pink-700 font-bold block">
             Simulated Pass Rate
           </span>
@@ -136,7 +136,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
       </div>
 
       {/* Attempts Table */}
-      <div className="luxury-card border-2 border-pink-200 rounded-3xl p-6 shadow-xl space-y-4">
+      <div className="luxury-card border-2 border-pink-200 rounded-3xl p-6 shadow-xl space-y-4 animate-fadeInUp stagger-2">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-pink-100 pb-4">
           <h3 className="font-black text-pink-950 text-base flex items-center gap-2">
             <BarChart2 className="w-4 h-4 text-pink-600" />
@@ -146,9 +146,9 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
           <div className="flex items-center gap-1.5 bg-pink-100/90 p-1.5 rounded-2xl border border-pink-200 text-xs font-bold">
             <button
               onClick={() => setFilterMode('all')}
-              className={`px-3 py-1 rounded-xl transition-all ${
+              className={`px-3 py-1 rounded-xl transition-all duration-300 ease-out ${
                 filterMode === 'all'
-                  ? 'bg-pink-500 font-black shadow-sm text-white'
+                  ? 'bg-pink-500 font-black shadow-sm text-white scale-[1.03]'
                   : 'text-pink-800 hover:text-pink-950'
               }`}
             >
@@ -156,9 +156,9 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
             </button>
             <button
               onClick={() => setFilterMode('passed')}
-              className={`px-3 py-1 rounded-xl transition-all ${
+              className={`px-3 py-1 rounded-xl transition-all duration-300 ease-out ${
                 filterMode === 'passed'
-                  ? 'bg-emerald-600 font-black shadow-sm text-white'
+                  ? 'bg-emerald-600 font-black shadow-sm text-white scale-[1.03]'
                   : 'text-pink-800 hover:text-pink-950'
               }`}
             >
@@ -166,9 +166,9 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
             </button>
             <button
               onClick={() => setFilterMode('failed')}
-              className={`px-3 py-1 rounded-xl transition-all ${
+              className={`px-3 py-1 rounded-xl transition-all duration-300 ease-out ${
                 filterMode === 'failed'
-                  ? 'bg-rose-600 font-black shadow-sm text-white'
+                  ? 'bg-rose-600 font-black shadow-sm text-white scale-[1.03]'
                   : 'text-pink-800 hover:text-pink-950'
               }`}
             >
@@ -183,7 +183,7 @@ export const ScoreHistoryView: React.FC<ScoreHistoryViewProps> = ({
             <p className="font-bold text-sm text-pink-950">No exam attempts found yet.</p>
             <button
               onClick={onGoHome}
-              className="px-5 py-2.5 rounded-2xl bg-pink-500 hover:bg-pink-600 text-white font-black text-xs transition-all shadow-md"
+              className="btn-shimmer px-5 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs transition-all duration-300 ease-out hover:scale-[1.04] shadow-md"
             >
               Launch Practice Exam 🎀
             </button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Play,
   Zap,
@@ -21,6 +21,9 @@ import {
   ShieldAlert,
   Heart,
   Sparkles,
+  CalendarClock,
+  Target,
+  ListChecks,
 } from 'lucide-react';
 import { CCMADomain, DOMAIN_METADATA, ExamResult } from '../types';
 import { ALL_QUESTIONS } from '../data/allQuestions';
@@ -57,6 +60,59 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   stats,
   recentAttempts,
 }) => {
+  // Exam Day countdown — target date for Nata's NHA CCMA exam
+  const EXAM_DATE = new Date('2026-09-23T00:00:00');
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const weakestMeta = stats.overallWeakestDomain ? DOMAIN_METADATA[stats.overallWeakestDomain] : null;
+  const weakestDomainName = weakestMeta ? weakestMeta.name : 'your lowest-scoring domain';
+
+
+  const daysLeft = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
+  const hoursLeft = msRemaining > 0 ? Math.max(0, Math.floor((msRemaining / (1000 * 60 * 60)) % 24)) : 0;
+  const minutesLeft = msRemaining > 0 ? Math.max(0, Math.floor((msRemaining / (1000 * 60)) % 60)) : 0;
+  const examHasPassed = msRemaining <= 0;
+
+  const examDateLabel = EXAM_DATE.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  // Gameplan adapts to how much time is actually left
+  const gameplan = examHasPassed
+    ? [
+        'Log today\'s attempt and review every missed question while it\'s fresh.',
+        'If you haven\'t sat the real exam yet, rebook and restart the countdown.',
+        'Keep drilling your weakest domain daily until your retake date.',
+      ]
+    : daysLeft > 14
+    ? [
+        `Drill 1 full domain per day, starting with ${weakestDomainName} — your current weak spot.`,
+        'Run one full 180-question timed exam this week to set a baseline.',
+        'Review every missed question with the rationale, not just the score.',
+        'Keep flashcards in rotation for 15 minutes daily for terminology recall.',
+      ]
+    : daysLeft > 3
+    ? [
+        `Focus remaining drills on ${weakestDomainName} — it's still your lowest scoring area.`,
+        'Take 1-2 more full timed exams to build 3-hour stamina.',
+        'Re-review flagged/missed questions from your last 2 attempts.',
+        'Keep sleep and hydration consistent — cramming now costs more than it gives.',
+      ]
+    : [
+        'Light review only — skim Cheat Sheets and flashcards, no new full exams.',
+        'Re-read the rationale on questions you\'ve missed more than once.',
+        'Confirm exam-day logistics: ID, confirmation, testing center address, arrival time.',
+        'Get a full night\'s sleep the night before — recall beats last-minute cramming.',
+      ];
+
   const getDomainIcon = (domain: CCMADomain, color?: string) => {
     const style = color ? { color } : undefined;
     switch (domain) {
@@ -76,8 +132,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         return <Stethoscope className="w-5 h-5" style={style} />;
     }
   };
-
-  const weakestMeta = stats.overallWeakestDomain ? DOMAIN_METADATA[stats.overallWeakestDomain] : null;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -199,6 +253,58 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </span>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Exam Day Countdown + Gameplan */}
+      <div className="luxury-card rounded-3xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(244,114,182,0.2)] border-2 border-pink-200 animate-fadeInUp">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+          {/* Countdown Block */}
+          <div className="lg:col-span-2 flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-pink-100 border border-pink-300 text-pink-700 text-xs font-black mb-3 shadow-sm">
+                <CalendarClock className="w-3.5 h-3.5 text-pink-500" />
+                <span>Exam Day</span>
+              </div>
+              <h2 className="font-display font-bold text-pink-950 text-xl sm:text-2xl leading-snug">
+                {examHasPassed ? 'Exam Day Has Passed 🎀' : 'Your NHA CCMA Exam Is Coming Up 🎀'}
+              </h2>
+              <p className="text-sm text-pink-800/80 font-medium mt-1">{examDateLabel}</p>
+            </div>
+
+            {!examHasPassed && (
+              <div className="grid grid-cols-3 gap-3 mt-5">
+                <div className="luxury-card-interactive rounded-2xl py-4 text-center">
+                  <div className="text-3xl sm:text-4xl font-black font-mono text-pink-600">{daysLeft}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-pink-700 mt-1">Days</div>
+                </div>
+                <div className="luxury-card-interactive rounded-2xl py-4 text-center">
+                  <div className="text-3xl sm:text-4xl font-black font-mono text-pink-600">{hoursLeft}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-pink-700 mt-1">Hours</div>
+                </div>
+                <div className="luxury-card-interactive rounded-2xl py-4 text-center">
+                  <div className="text-3xl sm:text-4xl font-black font-mono text-pink-600">{minutesLeft}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-pink-700 mt-1">Minutes</div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Gameplan Block */}
+          <div className="lg:col-span-3 lg:border-l-2 lg:border-pink-100 lg:pl-8">
+            <div className="flex items-center gap-2 mb-3">
+              <Target className="w-4 h-4 text-pink-600" />
+              <h3 className="font-black text-pink-950 text-sm">Gameplan to Pass 🎀</h3>
+            </div>
+            <ul className="space-y-2.5">
+              {gameplan.map((step, idx) => (
+                <li key={idx} className="flex items-start gap-2.5 text-sm text-pink-900 font-medium">
+                  <ListChecks className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

@@ -57,22 +57,23 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
     }
   }, [result.isPassed]);
 
-  const getDomainIcon = (domain: CCMADomain) => {
+  const getDomainIcon = (domain: CCMADomain, color?: string) => {
+    const style = color ? { color } : undefined;
     switch (domain) {
       case CCMADomain.CLINICAL_PATIENT_CARE:
-        return <Stethoscope className="w-4 h-4 text-pink-600" />;
+        return <Stethoscope className="w-4 h-4" style={style} />;
       case CCMADomain.FOUNDATIONAL_KNOWLEDGE:
-        return <Brain className="w-4 h-4 text-rose-500" />;
+        return <Brain className="w-4 h-4" style={style} />;
       case CCMADomain.CARE_COORDINATION_EDUCATION:
-        return <HeartHandshake className="w-4 h-4 text-pink-500" />;
+        return <HeartHandshake className="w-4 h-4" style={style} />;
       case CCMADomain.ADMINISTRATIVE_ASSISTING:
-        return <ClipboardList className="w-4 h-4 text-fuchsia-500" />;
+        return <ClipboardList className="w-4 h-4" style={style} />;
       case CCMADomain.COMMUNICATION:
-        return <MessageSquare className="w-4 h-4 text-pink-500" />;
+        return <MessageSquare className="w-4 h-4" style={style} />;
       case CCMADomain.MEDICAL_LAW_ETHICS:
-        return <ShieldAlert className="w-4 h-4 text-rose-600" />;
+        return <ShieldAlert className="w-4 h-4" style={style} />;
       default:
-        return <Stethoscope className="w-4 h-4 text-pink-600" />;
+        return <Stethoscope className="w-4 h-4" style={style} />;
     }
   };
 
@@ -85,7 +86,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fadeIn">
       {/* Score Hero Card */}
       <div
-        className={`rounded-3xl border-2 p-6 sm:p-8 text-pink-950 shadow-[0_20px_50px_rgba(244,114,182,0.25)] relative overflow-hidden ${
+        className={`animate-fadeInUp rounded-3xl border-2 p-6 sm:p-8 text-pink-950 shadow-[0_20px_50px_rgba(244,114,182,0.25)] relative overflow-hidden ${
           result.isPassed
             ? 'bg-gradient-to-br from-white via-pink-50 to-rose-100 border-pink-300'
             : 'bg-gradient-to-br from-white via-pink-50 to-rose-100 border-rose-300'
@@ -157,11 +158,11 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
       </div>
 
       {/* Action Buttons Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 animate-fadeInUp stagger-2">
         <button
           id="result-btn-review-all"
           onClick={onReviewAll}
-          className="p-3.5 rounded-2xl bg-white hover:bg-pink-50 text-pink-900 font-bold text-xs sm:text-sm border-2 border-pink-200 flex items-center justify-center gap-2 transition-all shadow-sm"
+          className="p-3.5 rounded-2xl bg-white hover:bg-pink-50 text-pink-900 font-bold text-xs sm:text-sm border-2 border-pink-200 flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03] shadow-sm"
         >
           <BookOpen className="w-4 h-4 text-pink-600" />
           <span>Review All Answers ({result.questions.length})</span>
@@ -171,7 +172,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
           <button
             id="result-btn-review-incorrect"
             onClick={onReviewIncorrectOnly}
-            className="p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs sm:text-sm border-2 border-rose-200 flex items-center justify-center gap-2 transition-all"
+            className="p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs sm:text-sm border-2 border-rose-200 flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03]"
           >
             <XCircle className="w-4 h-4 text-rose-600" />
             <span>Review Missed ({incorrectCount})</span>
@@ -181,7 +182,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
         <button
           id="result-btn-retake"
           onClick={onRetake}
-          className="p-3.5 rounded-2xl bg-white hover:bg-pink-50 text-pink-900 font-bold text-xs sm:text-sm border-2 border-pink-200 flex items-center justify-center gap-2 transition-all shadow-sm"
+          className="p-3.5 rounded-2xl bg-white hover:bg-pink-50 text-pink-900 font-bold text-xs sm:text-sm border-2 border-pink-200 flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03] shadow-sm"
         >
           <RotateCcw className="w-4 h-4 text-pink-600" />
           <span>Retake Exam</span>
@@ -190,7 +191,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
         <button
           id="result-btn-go-home"
           onClick={onGoHome}
-          className="p-3.5 rounded-2xl bg-pink-500 hover:bg-pink-600 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md border-2 border-white"
+          className="btn-shimmer p-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03] shadow-md border-2 border-white"
         >
           <Home className="w-4 h-4" />
           <span>Dashboard 🎀</span>
@@ -199,7 +200,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
 
       {/* Weak Area Diagnostic Banner */}
       {weakestMeta && result.domainScores[result.weakestDomain].total > 0 && (
-        <div className="luxury-card border-2 border-pink-300 rounded-3xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+        <div className="luxury-card-interactive rounded-3xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-fadeInUp stagger-3">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-2xl bg-pink-100 border border-pink-200 text-pink-700">
               <AlertTriangle className="w-5 h-5" />
@@ -217,7 +218,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
           <button
             id="result-btn-target-domain"
             onClick={() => onTargetWeakDomain(result.weakestDomain)}
-            className="px-4 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-black text-xs flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm"
+            className="btn-shimmer px-4 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-black text-xs flex items-center gap-1.5 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.04] shadow-sm"
           >
             <span>Practice {weakestMeta.shortName}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -226,7 +227,7 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
       )}
 
       {/* Domain by Domain Breakdown */}
-      <div className="luxury-card border-2 border-pink-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="luxury-card border-2 border-pink-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl animate-fadeInUp stagger-4">
         <div>
           <h3 className="font-black text-pink-950 text-lg flex items-center gap-2">
             <span>🎀 Domain-by-Domain Proficiency Breakdown</span>
@@ -239,22 +240,33 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
         <div className="space-y-4">
           {(Object.values(result.domainScores) as import('../types').DomainScoreSummary[])
             .filter((ds) => ds.total > 0)
-            .map((ds) => {
+            .map((ds, idx) => {
               const meta = DOMAIN_METADATA[ds.domain];
               const isPassingInDomain = ds.percentage >= 72;
 
               return (
                 <div
                   key={ds.domain}
-                  className="p-4 rounded-2xl bg-white/90 border-2 border-pink-100 space-y-2.5"
+                  className={`luxury-card-interactive rounded-2xl p-4 space-y-2.5 animate-fadeInUp stagger-${Math.min(idx + 1, 7)}`}
+                  style={{ borderColor: `${meta.accentColor}40` }}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
                     <div className="flex items-center gap-2">
-                      {getDomainIcon(ds.domain)}
+                      <span
+                        className="flex items-center justify-center w-7 h-7 rounded-lg border"
+                        style={{ backgroundColor: `${meta.accentColor}18`, borderColor: `${meta.accentColor}40` }}
+                      >
+                        {getDomainIcon(ds.domain, meta.accentColor)}
+                      </span>
                       <span className="font-bold text-pink-950 text-sm">
                         {meta.name}
                       </span>
-                      <span className="text-pink-600 font-semibold">({meta.weightPercent}% exam weight)</span>
+                      <span
+                        className="text-[11px] font-black px-2.5 py-0.5 rounded-full border font-mono"
+                        style={{ backgroundColor: `${meta.accentColor}14`, borderColor: `${meta.accentColor}40`, color: meta.accentColor }}
+                      >
+                        {meta.weightPercent}% Weight
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-2 font-mono font-bold">
@@ -276,12 +288,13 @@ export const ExamResultView: React.FC<ExamResultViewProps> = ({
                   {/* Progress Meter */}
                   <div className="w-full bg-pink-100 h-2.5 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-700 ${
-                        isPassingInDomain
-                          ? 'bg-gradient-to-r from-emerald-400 to-teal-500'
-                          : 'bg-gradient-to-r from-rose-400 to-pink-500'
-                      }`}
-                      style={{ width: `${ds.percentage}%` }}
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${ds.percentage}%`,
+                        background: isPassingInDomain
+                          ? `linear-gradient(to right, ${meta.accentColor}99, ${meta.accentColor})`
+                          : 'linear-gradient(to right, #fb7185, #f43f5e)',
+                      }}
                     />
                   </div>
                 </div>

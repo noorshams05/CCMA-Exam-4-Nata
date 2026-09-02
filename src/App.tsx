@@ -282,7 +282,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen text-pink-950 flex flex-col font-sans selection:bg-pink-300 selection:text-pink-950">
       {/* Top Navigation */}
       <Navbar
         currentTab={currentTab}
@@ -391,24 +391,24 @@ export default function App() {
 
       {/* Confirmation modal for quitting an in-progress exam */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#18181b] border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-fadeIn">
-            <h3 className="font-bold text-white text-lg">
-              Leave Exam in Progress?
+        <div className="fixed inset-0 z-50 bg-pink-950/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="luxury-card rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-fadeIn">
+            <h3 className="font-display font-bold text-pink-950 text-lg">
+              Leave Exam in Progress? 🎀
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-pink-800/80 leading-relaxed font-medium">
               If you leave now, your current exam session answers will be discarded and will not be scored.
             </p>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <button
                 onClick={() => setShowExitConfirm(false)}
-                className="px-4 py-2.5 rounded-xl border border-slate-700 bg-[#111114] text-slate-300 font-semibold text-xs hover:bg-slate-800 transition-colors"
+                className="px-4 py-2.5 rounded-xl border-2 border-pink-200 bg-white text-pink-800 font-bold text-xs hover:bg-pink-50 transition-all duration-300 ease-out hover:scale-[1.03]"
               >
                 Resume Exam
               </button>
               <button
                 onClick={handleConfirmExitExam}
-                className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-950/40 transition-colors"
+                className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs shadow-lg shadow-rose-950/30 transition-all duration-300 ease-out hover:scale-[1.03]"
               >
                 Discard & Exit
               </button>

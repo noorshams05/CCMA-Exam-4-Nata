@@ -29,7 +29,7 @@ export const StudyGuideView: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fadeIn">
       {/* Header */}
-      <div>
+      <div className="animate-fadeInUp">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-pink-100 border border-pink-300 text-pink-800 text-xs font-black mb-2 shadow-sm">
           <span>🎀</span>
           <span>High-Yield Clinical Reference</span>
@@ -44,11 +44,11 @@ export const StudyGuideView: React.FC = () => {
       </div>
 
       {/* Nav Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-pink-200 pb-2">
+      <div className="flex flex-wrap items-center gap-2 border-b border-pink-200 pb-2 animate-fadeInUp stagger-2">
         <button
           id="guide-tab-phlebotomy"
           onClick={() => setActiveSection('phlebotomy')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'phlebotomy'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'
@@ -61,7 +61,7 @@ export const StudyGuideView: React.FC = () => {
         <button
           id="guide-tab-injections"
           onClick={() => setActiveSection('injections')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'injections'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'
@@ -74,7 +74,7 @@ export const StudyGuideView: React.FC = () => {
         <button
           id="guide-tab-ekg"
           onClick={() => setActiveSection('ekg')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'ekg'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'
@@ -87,7 +87,7 @@ export const StudyGuideView: React.FC = () => {
         <button
           id="guide-tab-vitals"
           onClick={() => setActiveSection('vitals')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'vitals'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'
@@ -100,7 +100,7 @@ export const StudyGuideView: React.FC = () => {
         <button
           id="guide-tab-math"
           onClick={() => setActiveSection('math')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'math'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'
@@ -113,7 +113,7 @@ export const StudyGuideView: React.FC = () => {
         <button
           id="guide-tab-law"
           onClick={() => setActiveSection('law')}
-          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all ${
+          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.04] ${
             activeSection === 'law'
               ? 'bg-pink-500 text-white shadow-md'
               : 'text-pink-800 hover:bg-pink-50 hover:text-pink-950'

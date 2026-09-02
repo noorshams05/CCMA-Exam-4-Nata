@@ -103,7 +103,7 @@ export const FlashcardsView: React.FC = () => {
       />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fadeInUp">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-pink-100 border border-pink-300 text-pink-700 text-xs font-black mb-2 shadow-sm">
             <span>🎀</span>
@@ -123,7 +123,7 @@ export const FlashcardsView: React.FC = () => {
           <button
             id="fc-btn-shuffle"
             onClick={handleShuffle}
-            className="p-3 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
+            className="p-3 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all duration-300 ease-out hover:scale-[1.04] hover:border-pink-400"
           >
             <Shuffle className="w-4 h-4 text-pink-600" />
             <span>Shuffle</span>
@@ -132,7 +132,7 @@ export const FlashcardsView: React.FC = () => {
           <button
             id="fc-btn-toggle-view"
             onClick={() => setViewMode(viewMode === 'card' ? 'list' : 'card')}
-            className="p-3 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
+            className="p-3 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all duration-300 ease-out hover:scale-[1.04] hover:border-pink-400"
           >
             <Layers className="w-4 h-4 text-pink-600" />
             <span>{viewMode === 'card' ? 'Browse List' : 'Single Card'}</span>
@@ -141,7 +141,7 @@ export const FlashcardsView: React.FC = () => {
       </div>
 
       {/* Progress & Filters Bar */}
-      <div className="luxury-card rounded-3xl p-6 space-y-4 border-2 border-pink-200">
+      <div className="luxury-card rounded-3xl p-6 space-y-4 border-2 border-pink-200 animate-fadeInUp stagger-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
             <span className="font-extrabold text-pink-900">
@@ -215,41 +215,49 @@ export const FlashcardsView: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Interactive 3D Card */}
+            {/* Interactive 3D Flip Card */}
             <div
-              id="fc-card-container"
-              onClick={handleFlip}
-              className="relative min-h-[340px] sm:min-h-[380px] w-full rounded-3xl p-8 sm:p-10 cursor-pointer shadow-[0_20px_50px_rgba(244,114,182,0.25)] border-2 border-pink-200 transition-all flex flex-col justify-between select-none luxury-card hover:border-pink-400 group"
+              className="relative min-h-[340px] sm:min-h-[380px] w-full animate-fadeInUp stagger-3"
+              style={{ perspective: '1600px' }}
             >
-              {/* Card Top Metadata */}
-              <div className="flex items-center justify-between text-xs border-b border-pink-100 pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="px-3.5 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-800 font-extrabold text-[11px] flex items-center gap-1">
-                    <span>🎀</span>
-                    <span>{currentCard.tag || currentCard.subtopic}</span>
-                  </span>
-                  <span className="text-pink-600 font-bold">
-                    {DOMAIN_METADATA[currentCard.domain]?.shortName}
-                  </span>
-                </div>
+              <div
+                id="fc-card-container"
+                onClick={handleFlip}
+                className="relative w-full h-full min-h-[340px] sm:min-h-[380px] cursor-pointer select-none transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                }}
+              >
+                {/* Front Face — Term */}
+                <div
+                  className="absolute inset-0 rounded-3xl p-8 sm:p-10 shadow-[0_20px_50px_rgba(244,114,182,0.25)] flex flex-col justify-between luxury-card-interactive"
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  <div className="flex items-center justify-between text-xs border-b border-pink-100 pb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="px-3.5 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-800 font-extrabold text-[11px] flex items-center gap-1">
+                        <span>🎀</span>
+                        <span>{currentCard.tag || currentCard.subtopic}</span>
+                      </span>
+                      <span className="text-pink-600 font-bold">
+                        {DOMAIN_METADATA[currentCard.domain]?.shortName}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-pink-700 font-mono text-xs font-bold">
+                        {currentIndex + 1} / {filteredCards.length}
+                      </span>
+                      {isCurrentMastered && (
+                        <span className="inline-flex items-center gap-1 text-emerald-700 font-black text-xs bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-300 shadow-sm">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Mastered</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="text-pink-700 font-mono text-xs font-bold">
-                    {currentIndex + 1} / {filteredCards.length}
-                  </span>
-                  {isCurrentMastered && (
-                    <span className="inline-flex items-center gap-1 text-emerald-700 font-black text-xs bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-300 shadow-sm">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Mastered</span>
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Card Center Content */}
-              <div className="py-6 text-center space-y-4">
-                {!isFlipped ? (
-                  <div className="space-y-3">
+                  <div className="py-6 text-center space-y-3">
                     <span className="text-xs font-black uppercase tracking-widest text-pink-600">
                       Medical Concept / Term
                     </span>
@@ -261,8 +269,37 @@ export const FlashcardsView: React.FC = () => {
                       <span>Click card to flip & view clinical definition 🎀</span>
                     </p>
                   </div>
-                ) : (
-                  <div className="space-y-4 text-left animate-fadeIn">
+
+                  <div className="border-t border-pink-100 pt-3 flex items-center justify-between text-xs text-pink-600 font-semibold">
+                    <span>Domain: {DOMAIN_METADATA[currentCard.domain]?.name}</span>
+                    <span className="font-mono text-[11px] text-pink-700 font-bold">Question View</span>
+                  </div>
+                </div>
+
+                {/* Back Face — Definition */}
+                <div
+                  className="absolute inset-0 rounded-3xl p-8 sm:p-10 shadow-[0_20px_50px_rgba(244,114,182,0.25)] flex flex-col justify-between luxury-card-interactive"
+                  style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                >
+                  <div className="flex items-center justify-between text-xs border-b border-pink-100 pb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="px-3.5 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-800 font-extrabold text-[11px] flex items-center gap-1">
+                        <span>🎀</span>
+                        <span>{currentCard.tag || currentCard.subtopic}</span>
+                      </span>
+                      <span className="text-pink-600 font-bold">
+                        {DOMAIN_METADATA[currentCard.domain]?.shortName}
+                      </span>
+                    </div>
+                    {isCurrentMastered && (
+                      <span className="inline-flex items-center gap-1 text-emerald-700 font-black text-xs bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-300 shadow-sm">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Mastered</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="py-4 space-y-4 text-left overflow-y-auto max-h-[220px] sm:max-h-[260px]">
                     <span className="text-xs font-black uppercase tracking-widest text-pink-600 block text-center">
                       Clinical Definition & Details
                     </span>
@@ -278,15 +315,12 @@ export const FlashcardsView: React.FC = () => {
                       </div>
                     )}
                   </div>
-                )}
-              </div>
 
-              {/* Card Bottom Hint */}
-              <div className="border-t border-pink-100 pt-3 flex items-center justify-between text-xs text-pink-600 font-semibold">
-                <span>Domain: {DOMAIN_METADATA[currentCard.domain]?.name}</span>
-                <span className="font-mono text-[11px] text-pink-700 font-bold">
-                  {isFlipped ? 'Definition View' : 'Question View'}
-                </span>
+                  <div className="border-t border-pink-100 pt-3 flex items-center justify-between text-xs text-pink-600 font-semibold">
+                    <span>Domain: {DOMAIN_METADATA[currentCard.domain]?.name}</span>
+                    <span className="font-mono text-[11px] text-pink-700 font-bold">Definition View</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -295,7 +329,7 @@ export const FlashcardsView: React.FC = () => {
               <button
                 id="fc-btn-prev"
                 onClick={handlePrev}
-                className="px-4 py-2.5 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-4 py-2.5 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 font-bold text-xs flex items-center gap-1.5 transition-all duration-300 ease-out hover:scale-[1.04] shadow-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Previous</span>
@@ -305,7 +339,7 @@ export const FlashcardsView: React.FC = () => {
                 <button
                   id="fc-btn-learning"
                   onClick={() => handleMarkMastered(false)}
-                  className="px-4 py-2.5 rounded-2xl bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-900 font-extrabold text-xs flex items-center gap-1.5 transition-all"
+                  className="px-4 py-2.5 rounded-2xl bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-900 font-extrabold text-xs flex items-center gap-1.5 transition-all duration-300 ease-out hover:scale-[1.04]"
                 >
                   <XCircle className="w-4 h-4" />
                   <span>Still Learning</span>
@@ -314,7 +348,7 @@ export const FlashcardsView: React.FC = () => {
                 <button
                   id="fc-btn-mastered"
                   onClick={() => handleMarkMastered(true)}
-                  className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs flex items-center gap-1.5 transition-all shadow-md border-2 border-white"
+                  className="btn-shimmer px-5 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs flex items-center gap-1.5 transition-all duration-300 ease-out hover:scale-[1.04] shadow-md border-2 border-white"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Got It / Mastered 🎀</span>
@@ -324,7 +358,7 @@ export const FlashcardsView: React.FC = () => {
               <button
                 id="fc-btn-next"
                 onClick={handleNext}
-                className="px-4 py-2.5 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-4 py-2.5 rounded-2xl border-2 border-pink-200 bg-white hover:bg-pink-50 text-pink-800 font-bold text-xs flex items-center gap-1.5 transition-all duration-300 ease-out hover:scale-[1.04] shadow-sm"
               >
                 <span>Next</span>
                 <ChevronRight className="w-4 h-4" />
@@ -335,12 +369,12 @@ export const FlashcardsView: React.FC = () => {
       ) : (
         /* List / Grid Mode for quick scanning */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredCards.map((card) => {
+          {filteredCards.map((card, idx) => {
             const isMastered = !!masteryMap[card.id];
             return (
               <div
                 key={card.id}
-                className="luxury-card rounded-3xl p-5 space-y-3 shadow-md flex flex-col justify-between border-2 border-pink-200"
+                className={`luxury-card-interactive rounded-3xl p-5 space-y-3 shadow-md flex flex-col justify-between animate-fadeInUp stagger-${Math.min((idx % 7) + 1, 7)}`}
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
