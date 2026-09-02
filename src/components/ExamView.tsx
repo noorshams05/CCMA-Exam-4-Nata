@@ -361,16 +361,15 @@ export const ExamView: React.FC<ExamViewProps> = ({
                     src={
                       isSelectedCorrect
                         ? 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZ4b2lzYWdxc20zbnc2YmFnd3A1dHZpd2w3M3l6NDVjYXAwZGkyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif'
-                        : 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTdyYTczNjdoN2h0a2FsN3NzNGRocTgyMHE4OXJkc3l2YWo5dzQxeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/umk922zX3bVDEyE19D/giphy.gif'
+                        : '/assets/hellokitty/hello-kitty-crying.gif'
                     }
-                    alt={isSelectedCorrect ? 'Hello Kitty Right Answer' : 'Hello Kitty Sad'}
+                    alt={isSelectedCorrect ? 'Hello Kitty Right Answer' : 'Hello Kitty Crying'}
                     className="w-full h-full object-contain rounded-xl"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
+                      if (!isSelectedCorrect) return;
                       const target = e.target as HTMLImageElement;
-                      target.src = isSelectedCorrect
-                        ? 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR0OHpscmpsY3l1bjNvaGZlZ3A2N21obzZ4MmtiOHBkaHRvbDNmdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xeJpnrWC4XWblEk/giphy.gif'
-                        : 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmY2dnNnajUwOWRteW9uaWZ4YnJ5bHZyOHlhOWthNnBoNWxxcXo3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VJ5fjfkHj3hydAeWdb/giphy.gif';
+                      target.src = 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR0OHpscmpsY3l1bjNvaGZlZ3A2N21obzZ4MmtiOHBkaHRvbDNmdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xeJpnrWC4XWblEk/giphy.gif';
                     }}
                   />
                 </div>

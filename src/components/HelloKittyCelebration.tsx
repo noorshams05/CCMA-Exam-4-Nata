@@ -121,14 +121,9 @@ export const HelloKittyCelebration: React.FC<HelloKittyCelebrationProps> = ({
               />
             ) : (
               <img
-                src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTdyYTczNjdoN2h0a2FsN3NzNGRocTgyMHE4OXJkc3l2YWo5dzQxeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/umk922zX3bVDEyE19D/giphy.gif"
-                alt="Hello Kitty Sad in the Rain"
+                src="/assets/hellokitty/hello-kitty-crying.gif"
+                alt="Hello Kitty Crying in the Rain"
                 className="w-full h-full object-contain rounded-xl"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmY2dnNnajUwOWRteW9uaWZ4YnJ5bHZyOHlhOWthNnBoNWxxcXo3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VJ5fjfkHj3hydAeWdb/giphy.gif";
-                }}
               />
             )}
             {/* Corner badge */}
