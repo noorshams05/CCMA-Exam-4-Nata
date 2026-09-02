@@ -1,0 +1,8 @@
+{
+  "name": "CCMA Practice Exam Prep",
+  "description": "Comprehensive NHA Certified Clinical Medical Assistant (CCMA) exam simulator with 180+ exam-weighted practice questions, timed test modes, flashcards, domain analytics, and scaled scoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
