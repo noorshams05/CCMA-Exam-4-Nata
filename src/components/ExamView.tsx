@@ -447,7 +447,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
             <button
               id="exam-btn-submit-test"
               onClick={() => setShowSubmitConfirm(true)}
-              className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs sm:text-sm shadow-[0_4px_20px_rgba(244,63,94,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] border-2 border-white"
+              className="btn-shimmer px-6 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-xs sm:text-sm shadow-[0_4px_20px_rgba(244,63,94,0.4)] transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] border-2 border-white"
             >
               Finish & Score Exam 🎀
             </button>

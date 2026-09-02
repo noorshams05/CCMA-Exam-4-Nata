@@ -8,7 +8,7 @@
   body {
     background-color: #fff5f8;
     color: #4a1d34;
-    font-family: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: 0.005em;
     background-image:
       radial-gradient(at 0% 0%, rgba(251, 113, 133, 0.18) 0px, transparent 50%),
@@ -22,10 +22,10 @@
   }
 }
 
-/* Hello Kitty "luxury kawaii" display font — used for headings & brand moments */
+/* Hello Kitty "luxury" display font — used for headings & brand moments */
 .font-display {
-  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif;
-  letter-spacing: -0.01em;
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 @keyframes fadeIn {
@@ -71,6 +71,54 @@
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
+/* Smooth staggered entrance animation for hero content & card grids */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+
+/* Shimmer sweep for primary CTA buttons — a soft light pass on hover */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-shimmer:hover::after {
+  left: 125%;
+}
+
 /* Hello Kitty Kawaii Luxury Pink Card */
 .luxury-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.82) 100%);
@@ -105,14 +153,15 @@
   -webkit-backdrop-filter: blur(16px);
   border: 1.5px solid rgba(251, 113, 133, 0.30);
   box-shadow: 0 15px 35px -10px rgba(244, 63, 94, 0.12);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
   color: #3b0724;
+  will-change: transform;
 }
 
 .luxury-card-interactive:hover {
   border-color: rgba(244, 63, 94, 0.7);
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px -10px rgba(244, 63, 94, 0.25), 0 0 20px -3px rgba(251, 113, 133, 0.3);
+  transform: translateY(-5px) scale(1.012);
+  box-shadow: 0 25px 45px -12px rgba(244, 63, 94, 0.28), 0 0 24px -4px rgba(251, 113, 133, 0.35);
 }
 
 /* Rain animation for the sad Hello Kitty (wrong answer) popup */

@@ -57,22 +57,23 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   stats,
   recentAttempts,
 }) => {
-  const getDomainIcon = (domain: CCMADomain) => {
+  const getDomainIcon = (domain: CCMADomain, color?: string) => {
+    const style = color ? { color } : undefined;
     switch (domain) {
       case CCMADomain.CLINICAL_PATIENT_CARE:
-        return <Stethoscope className="w-5 h-5 text-pink-600" />;
+        return <Stethoscope className="w-5 h-5" style={style} />;
       case CCMADomain.FOUNDATIONAL_KNOWLEDGE:
-        return <Brain className="w-5 h-5 text-rose-500" />;
+        return <Brain className="w-5 h-5" style={style} />;
       case CCMADomain.CARE_COORDINATION_EDUCATION:
-        return <HeartHandshake className="w-5 h-5 text-pink-500" />;
+        return <HeartHandshake className="w-5 h-5" style={style} />;
       case CCMADomain.ADMINISTRATIVE_ASSISTING:
-        return <ClipboardList className="w-5 h-5 text-fuchsia-500" />;
+        return <ClipboardList className="w-5 h-5" style={style} />;
       case CCMADomain.COMMUNICATION:
-        return <MessageSquare className="w-5 h-5 text-pink-500" />;
+        return <MessageSquare className="w-5 h-5" style={style} />;
       case CCMADomain.MEDICAL_LAW_ETHICS:
-        return <ShieldAlert className="w-5 h-5 text-rose-600" />;
+        return <ShieldAlert className="w-5 h-5" style={style} />;
       default:
-        return <Stethoscope className="w-5 h-5 text-pink-600" />;
+        return <Stethoscope className="w-5 h-5" style={style} />;
     }
   };
 
@@ -86,7 +87,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="absolute bottom-0 left-1/4 -mb-10 w-80 h-80 bg-rose-400/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-4 animate-fadeInUp">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/90 border border-pink-300 text-pink-700 text-xs font-black shadow-sm">
               <span className="text-sm">🎀</span>
               <span>Hello Kitty NHA CCMA Exam Prep</span>
@@ -103,7 +104,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <button
                 id="dash-btn-full-exam"
                 onClick={onStartFullExam}
-                className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-base flex items-center gap-2.5 shadow-[0_4px_25px_rgba(244,63,94,0.45)] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-2 border-white"
+                className="btn-shimmer px-6 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-base flex items-center gap-2.5 shadow-[0_4px_25px_rgba(244,63,94,0.45)] transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-[0_8px_35px_rgba(244,63,94,0.55)] active:scale-[0.98] border-2 border-white"
               >
                 <Play className="w-5 h-5 fill-current" />
                 <span>Launch Full 180-Q Exam (3 Hrs)</span>
@@ -112,7 +113,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <button
                 id="dash-btn-custom-quiz"
                 onClick={onOpenQuizSetup}
-                className="px-5 py-3.5 rounded-2xl bg-white/90 hover:bg-pink-50 text-pink-900 font-bold text-sm border-2 border-pink-200 hover:border-pink-300 flex items-center gap-2 transition-all duration-200 shadow-sm"
+                className="px-5 py-3.5 rounded-2xl bg-white/90 hover:bg-pink-50 text-pink-900 font-bold text-sm border-2 border-pink-200 hover:border-pink-300 flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-0.5 shadow-sm hover:shadow-md"
               >
                 <Zap className="w-4 h-4 text-pink-500" />
                 <span>Custom Domain Quiz</span>
@@ -121,7 +122,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <button
                 id="dash-btn-flashcards"
                 onClick={onOpenFlashcards}
-                className="px-5 py-3.5 rounded-2xl bg-white/90 hover:bg-pink-50 text-pink-900 font-bold text-sm border-2 border-pink-200 hover:border-pink-300 flex items-center gap-2 transition-all duration-200 shadow-sm"
+                className="px-5 py-3.5 rounded-2xl bg-white/90 hover:bg-pink-50 text-pink-900 font-bold text-sm border-2 border-pink-200 hover:border-pink-300 flex items-center gap-2 transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-0.5 shadow-sm hover:shadow-md"
               >
                 <RotateCcw className="w-4 h-4 text-rose-500" />
                 <span>Flashcards (60+ Terms)</span>
@@ -130,7 +131,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
 
           {/* Readiness Score Card */}
-          <div className="bg-white/95 border-2 border-pink-200 rounded-3xl p-6 backdrop-blur-xl space-y-4 shadow-xl">
+          <div className="bg-white/95 border-2 border-pink-200 rounded-3xl p-6 backdrop-blur-xl space-y-4 shadow-xl animate-fadeInUp stagger-2 hover:shadow-2xl transition-shadow duration-500">
             <div className="flex items-center justify-between text-xs text-pink-700">
               <span className="font-extrabold uppercase tracking-widest text-[10px] text-pink-800 flex items-center gap-1">
                 <span>🎀</span> Readiness Score
@@ -230,7 +231,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <button
             id="dash-btn-target-weak"
             onClick={() => onStartTargetedDomainQuiz(weakestMeta.id)}
-            className="px-5 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-extrabold text-sm flex items-center gap-2 shadow-md transition-all whitespace-nowrap"
+            className="btn-shimmer px-5 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-extrabold text-sm flex items-center gap-2 shadow-md transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-lg whitespace-nowrap"
           >
             <span>Practice {weakestMeta.shortName} (20 Qs)</span>
             <ArrowRight className="w-4 h-4" />
@@ -260,7 +261,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {Object.values(DOMAIN_METADATA).map((domainMeta) => {
+          {Object.values(DOMAIN_METADATA).map((domainMeta, cardIdx) => {
             const domainQuestions = ALL_QUESTIONS.filter((q) => q.domain === domainMeta.id);
             const prof = stats.overallDomainProficiencies[domainMeta.id];
             const hasData = prof && prof.total > 0;
@@ -270,14 +271,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 key={domainMeta.id}
                 id={`domain-card-${domainMeta.id}`}
                 onClick={() => onStartTargetedDomainQuiz(domainMeta.id)}
-                className="luxury-card-interactive rounded-3xl p-6 cursor-pointer group flex flex-col justify-between"
+                className={`luxury-card-interactive rounded-3xl p-6 cursor-pointer group flex flex-col justify-between animate-fadeInUp stagger-${Math.min(cardIdx + 1, 7)}`}
               >
                 <div className="space-y-3.5">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="p-2.5 rounded-2xl bg-pink-100/90 border border-pink-200 group-hover:border-pink-400 group-hover:bg-pink-200/80 transition-all">
-                      {getDomainIcon(domainMeta.id)}
+                    <div
+                      className="p-2.5 rounded-2xl border transition-all duration-300 group-hover:scale-110"
+                      style={{
+                        backgroundColor: `${domainMeta.accentColor}18`,
+                        borderColor: `${domainMeta.accentColor}40`,
+                      }}
+                    >
+                      {getDomainIcon(domainMeta.id, domainMeta.accentColor)}
                     </div>
-                    <span className="text-[11px] font-black px-3 py-1 rounded-full bg-pink-100 text-pink-800 border border-pink-200 font-mono">
+                    <span
+                      className="text-[11px] font-black px-3 py-1 rounded-full border font-mono"
+                      style={{
+                        backgroundColor: `${domainMeta.accentColor}14`,
+                        borderColor: `${domainMeta.accentColor}40`,
+                        color: domainMeta.accentColor,
+                      }}
+                    >
                       {domainMeta.weightPercent}% Weight
                     </span>
                   </div>
