@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Navbar, AppTab } from './components/Navbar';
 import { DashboardView } from './components/DashboardView';
 import { ExamView } from './components/ExamView';
@@ -282,7 +283,15 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-pink-950 flex flex-col font-sans selection:bg-pink-300 selection:text-pink-950">
+    <div className="app-shell min-h-screen flex flex-col">
+      <div className="ambient-stage" aria-hidden="true">
+        <span className="ambient-orb ambient-orb--one" />
+        <span className="ambient-orb ambient-orb--two" />
+        <span className="ambient-orb ambient-orb--three" />
+        <span className="ambient-grid" />
+        <span className="floating-bow floating-bow--one bow-mark bow-mark--large" />
+        <span className="floating-bow floating-bow--two bow-mark" />
+      </div>
       {/* Top Navigation */}
       <Navbar
         currentTab={currentTab}
@@ -299,7 +308,15 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1">
+      <main className="flex-1 relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentTab}
+            initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -8, filter: 'blur(5px)' }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          >
         {currentTab === 'dashboard' && (
           <DashboardView
             onStartFullExam={handleStartFullExam}
@@ -387,7 +404,9 @@ export default function App() {
             onGoHome={() => setCurrentTab('dashboard')}
           />
         )}
-      </div>
+          </motion.div>
+        </AnimatePresence>
+      </main>
 
       {/* Confirmation modal for quitting an in-progress exam */}
       {showExitConfirm && (
