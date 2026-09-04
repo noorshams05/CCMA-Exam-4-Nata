@@ -72,6 +72,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const weakestMeta = stats.overallWeakestDomain ? DOMAIN_METADATA[stats.overallWeakestDomain] : null;
   const weakestDomainName = weakestMeta ? weakestMeta.name : 'your lowest-scoring domain';
 
+  // Milliseconds remaining until exam day. This was previously referenced before
+  // being defined, which caused the Dashboard component to crash at runtime.
+  const msRemaining = EXAM_DATE.getTime() - now.getTime();
 
   const daysLeft = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
   const hoursLeft = msRemaining > 0 ? Math.max(0, Math.floor((msRemaining / (1000 * 60 * 60)) % 24)) : 0;
